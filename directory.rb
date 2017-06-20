@@ -1,28 +1,24 @@
-#Let's put all students into an array
-# students = [
-#     {name: "Dr Hannibal Lecter", cohort: :november },
-#     {name: "Darth Vader", cohort: :november },
-#     {name:"Nurse Ratched", cohort: :november },
-#     {name: "Michael Corleone", cohort: :november },
-#     {name: "Alex DeLarge", cohort: :november },
-#     {name: "The Wicked Witch of the West", cohort: :november },
-#     {name: "Terminator", cohort: :november },
-#     {name: "Freddy Krueger", cohort: :november },
-#     {name: "The Joker", cohort: :november },
-#     {name: "Joffrey Baratheon", cohort: :november },
-#     {name: "Norman Bates", cohort: :november }
-#     ]
-
-    
 def input_students
     puts "Please enter the first and second name of the student"
     name = gets.chomp
    
-    #create an empty array
     students = []
-    # while the name is NOT empty, repeat this code
+   
         while !name.empty? do
-            puts "Thank you. Which country were they born in?"
+            puts "Thank you. Which cohort are they in?"
+            cohort = gets.chomp.capitalize.to_sym
+                
+            months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
+                if cohort.empty?
+                    cohort = "July".to_sym 
+                    puts "The cohort has reverted to the default of July." 
+                end
+                until months.include?(cohort)
+                    puts "Please enter a valid month of the year"
+                    cohort = gets.chomp.capitalize.to_sym
+                end
+        
+            puts "Which country were they born in?"
             country = gets.chomp
             puts "How tall are they in cm?"
             height = gets.chomp
@@ -30,7 +26,7 @@ def input_students
             hobby = gets.chomp
    
         #add student hash to the array
-            students << {name: name, cohort: :november, country: country, height: height, hobby: hobby}
+            students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
                 if students.count > 1 
                     puts "Now we have #{students.count} students" 
                 else
