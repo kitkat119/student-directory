@@ -15,21 +15,31 @@
 
     
 def input_students
-    puts "Please enter the names of the students"
-    puts "To finish, just hit return twice"
+    puts "Please enter the first and second name of the student"
+    name = gets.chomp
+   
     #create an empty array
     students = []
-    #get the first name
-    name = gets.chomp
     # while the name is NOT empty, repeat this code
-    while !name.empty? do 
+        while !name.empty? do
+            puts "Thank you. Which country were they born in?"
+            country = gets.chomp
+            puts "How tall are they in cm?"
+            height = gets.chomp
+            puts "What is their favourite hobby?"
+            hobby = gets.chomp
+   
         #add student hash to the array
-        students << {name: name, cohort: :november}
-        puts "Now we have #{students.count} students"
-        #get another name from the user
-        name = gets.chomp
-    end
-    #return the array
+            students << {name: name, cohort: :november, country: country, height: height, hobby: hobby}
+                if students.count > 1 
+                    puts "Now we have #{students.count} students" 
+                else
+                    puts "Now we have #{students.count} student"
+                end
+            puts "Please add another student. If there are no more to add, hit return"
+            #get another name from the user
+            name = gets.chomp
+        end
     students
 end
 
@@ -39,11 +49,9 @@ def print_header
 end
 
 def print(students)
-#   # students.each_with_index do |student, index|
-#         puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)" #if "#{student[:name]}".length < 12 
     count = 0
-    while count < students.length
-        puts "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    while count < students.count
+        puts "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort): Born in #{students[count][:country]}, height: #{students[count][:height]} cm with a favourite hobby of #{students[count][:hobby]}."
         count += 1
     end
 end
