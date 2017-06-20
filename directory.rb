@@ -48,21 +48,25 @@ end
 def print(students)
    # count = 0
     existing_cohorts = students.map {|student| student[:cohort]}.uniq
-   # while count < students.count
+  
         existing_cohorts.each do |month|
             puts "#{month} cohort:"
                 students.each do |student| 
                     if student[:cohort] == month
                         puts "#{student[:name]} --> Born in #{student[:country]}, height: #{student[:height]} cm with a favourite hobby of #{student[:hobby]}."
-        #(#{student[:cohort]} cohort)
+       
                     end
                 end
             end
-   # end
+  
 end
  
 def print_footer(students)
-    puts "Overall, we have #{students.count} great students"
+    if students.count > 1
+        puts "Overall, we have #{students.count} great students"
+    else
+        puts "Overall, we have #{students.count} great student"
+    end
 end
 
 students = input_students
