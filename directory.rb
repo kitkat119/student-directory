@@ -3,12 +3,12 @@ def input_students
     name = gets.chomp
    
     students = []
-   
+    months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
+
         while !name.empty? do
             puts "Thank you. Which cohort are they in?"
             cohort = gets.chomp.capitalize.to_sym
                 
-            months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
                 if cohort.empty?
                     cohort = "July".to_sym 
                     puts "The cohort has reverted to the default of July." 
@@ -39,17 +39,26 @@ def input_students
     students
 end
 
+
 def print_header
     puts "The Students of Villains Academy".center(100)
     puts "-------------".center(100)
 end
 
 def print(students)
-    count = 0
-    while count < students.count
-        puts "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort):".ljust(50) + "Born in #{students[count][:country]}, height: #{students[count][:height]} cm with a favourite hobby of #{students[count][:hobby]}.".rjust(50)
-        count += 1
-    end
+   # count = 0
+    existing_cohorts = students.map {|student| student[:cohort]}.uniq
+   # while count < students.count
+        existing_cohorts.each do |month|
+            puts "#{month} cohort:"
+                students.each do |student| 
+                    if student[:cohort] == month
+                        puts "#{student[:name]} --> Born in #{student[:country]}, height: #{student[:height]} cm with a favourite hobby of #{student[:hobby]}."
+        #(#{student[:cohort]} cohort)
+                    end
+                end
+            end
+   # end
 end
  
 def print_footer(students)
