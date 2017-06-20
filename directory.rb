@@ -44,14 +44,14 @@ def input_students
 end
 
 def print_header
-    puts "The Students of Villains Academy"
-    puts "-------------"
+    puts "The Students of Villains Academy".center(100)
+    puts "-------------".center(100)
 end
 
 def print(students)
     count = 0
     while count < students.count
-        puts "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort): Born in #{students[count][:country]}, height: #{students[count][:height]} cm with a favourite hobby of #{students[count][:hobby]}."
+        puts "#{count+1}. #{students[count][:name]} (#{students[count][:cohort]} cohort):".ljust(50) + "Born in #{students[count][:country]}, height: #{students[count][:height]} cm with a favourite hobby of #{students[count][:hobby]}.".rjust(50)
         count += 1
     end
 end
