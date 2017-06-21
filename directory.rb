@@ -1,13 +1,13 @@
 def input_students
     puts "Please enter the first and second name of the student"
-    name = gets.strip
+    name = gets.delete("\r\n")
    
     students = []
     months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
 
         while !name.empty? do
             puts "Thank you. Which cohort are they in?"
-            cohort = gets.strip.capitalize.to_sym
+            cohort = gets.delete("\r\n").capitalize.to_sym
                 
                 if cohort.empty?
                     cohort = "July".to_sym 
@@ -15,15 +15,15 @@ def input_students
                 end
                 until months.include?(cohort)
                     puts "Please enter a valid month of the year"
-                    cohort = gets.strip.capitalize.to_sym
+                    cohort = gets.delete("\r\n").capitalize.to_sym
                 end
         
             puts "Which country were they born in?"
-            country = gets.strip
+            country = gets.delete("\r\n")
             puts "How tall are they in cm?"
-            height = gets.strip
+            height = gets.delete("\r\n")
             puts "What is their favourite hobby?"
-            hobby = gets.strip
+            hobby = gets.delete("\r\n")
    
         #add student hash to the array
             students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
@@ -34,7 +34,7 @@ def input_students
                 end
             puts "Please add another student. If there are no more to add, hit return"
             #get another name from the user
-            name = gets.strip
+            name = gets.delete("\r\n")
         end
     students
 end
