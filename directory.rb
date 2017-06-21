@@ -40,16 +40,17 @@ def input_students
 end
 
 
-def print_header
-    puts "The Students of Villains Academy".center(100)
-    puts "-------------".center(100)
-end
+# def print_header
+#     puts "The Students of Villains Academy".center(100)
+#     puts "-------------".center(100)
+# end
 
 def print(students)
-   # count = 0
+    if students.count > 0
+    puts "The Students of Villains Academy".center(100)
+    puts "-------------".center(100)
     existing_cohorts = students.map {|student| student[:cohort]}.uniq
-  
-        existing_cohorts.each do |month|
+    existing_cohorts.each do |month|
             puts "#{month} cohort:"
                 students.each do |student| 
                     if student[:cohort] == month
@@ -58,11 +59,13 @@ def print(students)
                     end
                 end
             end
-  
+    else
+        puts "You didn't enter any students"
+    end
 end
  
 def print_footer(students)
-    if students.count > 1
+    if students.count > 1 
         puts "Overall, we have #{students.count} great students"
     else
         puts "Overall, we have #{students.count} great student"
@@ -70,7 +73,7 @@ def print_footer(students)
 end
 
 students = input_students
-print_header
+#print_header
 print(students)
 print_footer(students)
 
