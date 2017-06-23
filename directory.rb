@@ -1,8 +1,10 @@
+@students = [] # an empty array accessible to all methods
+
 def input_students
     puts "Please enter the first and second name of the student"
     name = gets.delete("\r\n")
    
-    students = []
+   # students = []
     months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
 
         while !name.empty? do
@@ -26,17 +28,50 @@ def input_students
             hobby = gets.delete("\r\n")
    
         #add student hash to the array
-            students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
-                if students.count > 1 
-                    puts "Now we have #{students.count} students" 
+            @students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
+                if @students.count > 1 
+                    puts "Now we have #{@students.count} students" 
                 else
-                    puts "Now we have #{students.count} student"
+                    puts "Now we have #{@students.count} student"
                 end
             puts "Please add another student. If there are no more to add, hit return"
             #get another name from the user
             name = gets.delete("\r\n")
         end
-    students
+   
+end
+
+def interactive_menu
+    loop do
+        print_menu
+        process(gets.chomp)
+    end
+end
+
+def print_menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit."
+end
+
+def show_students
+    print_header
+    print_students_list
+    print_footer
+end
+
+def process(selection)   
+    case selection
+        when "1"
+                input_students
+        when "2"
+                show_students
+        when "9"
+            exit # causes program to terminate
+        else
+            puts "I don't know what you mean, try again"
+    end
+
 end
 
 def print_header
@@ -44,15 +79,13 @@ def print_header
     puts "-------------".center(100)
 end
 
-def any_students(students)
-    if students.count > 0
+def print_students_list
+    if @students.count > 0
        
-       # def print(students)
-   
-            existing_cohorts = students.map {|student| student[:cohort]}.uniq
+            existing_cohorts = @students.map {|student| student[:cohort]}.uniq
             existing_cohorts.each do |month|
             puts "#{month} cohort:"
-                students.each do |student| 
+                @students.each do |student| 
                     if student[:cohort] == month
                         puts "#{student[:name]} --> Born in #{student[:country]}, height: #{student[:height]} cm with a favourite hobby of #{student[:hobby]}."
        
@@ -62,47 +95,19 @@ def any_students(students)
   
     else
         puts "You didn't enter any students"
-    #end
-    end
-end
-def print_footer(students)
-    if students.count > 1 
-        puts "Overall, we have #{students.count} great students"
-    else
-        puts "Overall, we have #{students.count} great student"
+    
     end
 end
 
-def interactive_menu
-    students = []
-    loop do
-        # print the menu and ask the user what to do
-        puts "1. Input the students"
-        puts "2. Show the students"
-        puts "9. Exit."
-        #read the input and save to variable
-        selection = gets.chomp
-        
-        case selection
-            when "1"
-                students = input_students
-            when "2"
-                print_header
-                print(students)
-                print_footer(students)
-            when "9"
-                exit # causes program to terminate
-            else
-                puts "I don't know what you meant, try again"
-        end
+def print_footer
+    if @students.count > 1 
+        puts "Overall, we have #{@students.count} great students"
+    else
+        puts "Overall, we have #{@students.count} great student"
     end
 end
 
 interactive_menu
-students = input_students
-print_header
-# print(students)
-any_students(students)
-print_footer(students)
+
 
 
