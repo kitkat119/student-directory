@@ -39,18 +39,18 @@ def input_students
     students
 end
 
-
-# def print_header
-#     puts "The Students of Villains Academy".center(100)
-#     puts "-------------".center(100)
-# end
-
-def print(students)
-    if students.count > 0
+def print_header
     puts "The Students of Villains Academy".center(100)
     puts "-------------".center(100)
-    existing_cohorts = students.map {|student| student[:cohort]}.uniq
-    existing_cohorts.each do |month|
+end
+
+def any_students(students)
+    if students.count > 0
+       
+       # def print(students)
+   
+            existing_cohorts = students.map {|student| student[:cohort]}.uniq
+            existing_cohorts.each do |month|
             puts "#{month} cohort:"
                 students.each do |student| 
                     if student[:cohort] == month
@@ -59,11 +59,12 @@ def print(students)
                     end
                 end
             end
+  
     else
         puts "You didn't enter any students"
+    #end
     end
 end
- 
 def print_footer(students)
     if students.count > 1 
         puts "Overall, we have #{students.count} great students"
@@ -72,9 +73,36 @@ def print_footer(students)
     end
 end
 
+def interactive_menu
+    students = []
+    loop do
+        # print the menu and ask the user what to do
+        puts "1. Input the students"
+        puts "2. Show the students"
+        puts "9. Exit."
+        #read the input and save to variable
+        selection = gets.chomp
+        
+        case selection
+            when "1"
+                students = input_students
+            when "2"
+                print_header
+                print(students)
+                print_footer(students)
+            when "9"
+                exit # causes program to terminate
+            else
+                puts "I don't know what you meant, try again"
+        end
+    end
+end
+
+interactive_menu
 students = input_students
-#print_header
-print(students)
+print_header
+# print(students)
+any_students(students)
 print_footer(students)
 
 
