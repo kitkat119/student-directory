@@ -1,53 +1,5 @@
 @students = [] # an empty array accessible to all methods
 
-def input_students
-    puts "Please enter the first and second name of the student"
-    name = gets.delete("\r\n")
-   
-   # students = []
-    months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
-
-        while !name.empty? do
-            puts "Thank you. Which cohort are they in?"
-            cohort = gets.delete("\r\n").capitalize.to_sym
-                
-                if cohort.empty?
-                    cohort = "July".to_sym 
-                    puts "The cohort has reverted to the default of July." 
-                end
-                until months.include?(cohort)
-                    puts "Please enter a valid month of the year"
-                    cohort = gets.delete("\r\n").capitalize.to_sym
-                end
-        
-            puts "Which country were they born in?"
-            country = gets.delete("\r\n")
-            puts "How tall are they in cm?"
-            height = gets.delete("\r\n")
-            puts "What is their favourite hobby?"
-            hobby = gets.delete("\r\n")
-   
-        #add student hash to the array
-            @students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
-                if @students.count > 1 
-                    puts "Now we have #{@students.count} students" 
-                else
-                    puts "Now we have #{@students.count} student"
-                end
-            puts "Please add another student. If there are no more to add, hit return"
-            #get another name from the user
-            name = gets.delete("\r\n")
-        end
-   
-end
-
-def interactive_menu
-    loop do
-        print_menu
-        process(gets.chomp)
-    end
-end
-
 def print_menu
     puts "1. Input the students"
     puts "2. Show the students"
@@ -56,10 +8,11 @@ def print_menu
     puts "9. Exit."
 end
 
-def show_students
-    print_header
-    print_students_list
-    print_footer
+def interactive_menu
+    loop do
+        print_menu
+        process(STDIN.gets.chomp)
+    end
 end
 
 def process(selection)   
@@ -78,6 +31,53 @@ def process(selection)
             puts "I don't know what you mean, try again"
     end
 
+end
+
+def input_students
+    puts "Please enter the first and second name of the student"
+    name = STDIN.gets.delete("\r\n")
+   
+   # students = []
+    months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
+
+        while !name.empty? do
+            puts "Thank you. Which cohort are they in?"
+            cohort = STDIN.gets.delete("\r\n").capitalize.to_sym
+                
+                if cohort.empty?
+                    cohort = "July".to_sym 
+                    puts "The cohort has reverted to the default of July." 
+                end
+                until months.include?(cohort)
+                    puts "Please enter a valid month of the year"
+                    cohort = STDIN.gets.delete("\r\n").capitalize.to_sym
+                end
+        
+            puts "Which country were they born in?"
+            country = STDIN.gets.delete("\r\n")
+            puts "How tall are they in cm?"
+            height = STDIN.gets.delete("\r\n")
+            puts "What is their favourite hobby?"
+            hobby = STDIN.gets.delete("\r\n")
+   
+        #add student hash to the array
+            @students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
+                if @students.count > 1 
+                    puts "Now we have #{@students.count} students" 
+                else
+                    puts "Now we have #{@students.count} student"
+                end
+            puts "Please add another student. If there are no more to add, hit return"
+            #get another name from the user
+            name = STDIN.gets.delete("\r\n")
+        end
+   
+end
+
+def show_students
+    print_header
+    print_students_list
+    print_footer
 end
 
 def print_header
@@ -125,8 +125,8 @@ def save_students
     file.close
 end
 
-def load_students
-    file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+    file = File.open(filename, "r")
     file.readlines.each do |line|
         name, cohort = line.chomp.split(',')
         @students << {name: name, cohort: cohort.to_sym}
@@ -134,6 +134,19 @@ def load_students
     file.close
 end
 
+def try_load_students
+    filename = ARGV.first   # first arg from the command line
+    return if filename.nil?     # get out of the method if it isn't given
+    if File.exists?(filename)   # if it exists
+        load_students(filename)
+        puts "Loaded #{@students.count} from #{filename}"
+    else
+        puts "Sorry, #{filename} does not exist"
+        exit    # quit the program
+    end
+end
+
+try_load_students
 interactive_menu
 
 
