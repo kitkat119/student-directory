@@ -5,7 +5,7 @@ def print_menu
     puts "1. Input the students"
     puts "2. Show the students"
     puts "3. Save the list to students.csv"
-    puts "4. Load the list from students.csv file"
+    puts "4. Load the list from a file"
     puts "9. Exit."
 end
 
@@ -108,16 +108,21 @@ def print_footer
 end
 
 def save_students
-    file = File.open("students.csv", "w")
+    puts "Which file would you like to save to? (You can always save to students.csv if needed!)"
+    filename = gets.chomp
+    file = File.open(filename, "w")
     @students.each do |student|
         csv_line = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]].join(",")
         file.puts csv_line
     end
     file.close
-    puts "The students have been successfully saved to the students.csv file"
+    puts "The students have been successfully saved to the #{filename} file"
 end
 
 def load_students(filename = "students.csv")
+    puts "If you'd like to load the list of students from a file other than students.csv, please enter it now. Otherwise, just hit return to continue to load from students.csv."
+    other_filename = STDIN.gets.chomp
+    filename ||= other_filename if File.exists?(other_filename)
     file = File.open(filename, "r")
     file.readlines.each do |line|
         name, cohort, country, height, hobby = line.chomp.split(',')
@@ -132,10 +137,8 @@ def try_load_students
     if filename.nil? 
         load_students 
     elsif File.exists?(filename)   # if it exists
-        load_students(filename)
-    else
-        puts "Sorry, #{filename} does not exist"
-        exit    # quit the program
+          load_students(filename)
+          
     end
 end
 
