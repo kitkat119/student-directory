@@ -16,7 +16,9 @@ def interactive_menu
     end
 end
 
-def process(selection)   
+def process(selection) 
+    possible_inputs = ["1", "2", "3", "4", "9"]
+    puts "Command successful!!!" if possible_inputs.include?(selection)
     case selection
         when "1" then input_students
         when "2" then show_students
@@ -112,6 +114,7 @@ def save_students
         file.puts csv_line
     end
     file.close
+    puts "The students have been successfully saved to the students.csv file"
 end
 
 def load_students(filename = "students.csv")
