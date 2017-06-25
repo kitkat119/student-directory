@@ -135,15 +135,16 @@ def load_students(filename = "students.csv")
     file.readlines.each do |line|
         name, cohort, country, height, hobby = line.chomp.split(',')
         add_to_students_array(name, cohort, country, height, hobby)
-        #@students << {name: name, cohort: cohort.to_sym, country: country, height: height, hobby: hobby}
-    end
+      end
     file.close
+     puts "Loaded #{@students.count} from #{filename}"
 end
 
 def try_load_students
     filename = ARGV.first   # first arg from the command line
-    return if filename.nil?     # get out of the method if it isn't given
-    if File.exists?(filename)   # if it exists
+    if filename.nil? 
+        load_students 
+    elsif File.exists?(filename)   # if it exists
         load_students(filename)
         puts "Loaded #{@students.count} from #{filename}"
     else
