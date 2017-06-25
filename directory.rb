@@ -110,12 +110,12 @@ end
 def save_students
     puts "Which file would you like to save to? (You can always save to students.csv if needed!)"
     filename = gets.chomp
-    file = File.open(filename, "w")
+    File.open(filename, "w") do |file|
     @students.each do |student|
         csv_line = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]].join(",")
         file.puts csv_line
     end
-    file.close
+    end
     puts "The students have been successfully saved to the #{filename} file"
 end
 
@@ -123,12 +123,12 @@ def load_students(filename = "students.csv")
     puts "If you'd like to load the list of students from a file other than students.csv, please enter it now. Otherwise, just hit return to continue to load from students.csv."
     other_filename = STDIN.gets.chomp
     filename ||= other_filename if File.exists?(other_filename)
-    file = File.open(filename, "r")
+    File.open(filename, "r") do |file|
     file.readlines.each do |line|
         name, cohort, country, height, hobby = line.chomp.split(',')
         add_to_students_array(name, cohort, country, height, hobby)
       end
-    file.close
+    end
      puts "Loaded #{@students.count} from #{filename}"
 end
 
