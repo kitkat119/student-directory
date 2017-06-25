@@ -1,6 +1,7 @@
 @students = [] # an empty array accessible to all methods
 
 def print_menu
+    puts "Please enter a number according to the action you wish to take:"
     puts "1. Input the students"
     puts "2. Show the students"
     puts "3. Save the list to students.csv"
@@ -17,32 +18,24 @@ end
 
 def process(selection)   
     case selection
-        when "1"
-            input_students
-        when "2"
-            show_students
-        when "3"
-            save_students
-        when "4"
-            load_students
-        when "9"
-            exit # causes program to terminate
-        else
-            puts "I don't know what you mean, try again"
+        when "1" then input_students
+        when "2" then show_students
+        when "3" then save_students
+        when "4" then load_students()
+        when "9" then exit
+    else puts "I don't know what you mean, try again"
     end
 
 end
 
 def input_students
     puts "Please enter the first and second name of the student"
-    name = STDIN.gets.delete("\r\n")
-   
-   # students = []
+    name = STDIN.gets.chomp
     months = [:January, :February, :March, :April, :May, :June, :July, :August, :September, :October, :November, :December]
 
         while !name.empty? do
             puts "Thank you. Which cohort are they in?"
-            cohort = STDIN.gets.delete("\r\n").capitalize.to_sym
+            cohort = STDIN.gets.chomp.capitalize.to_sym
                 
                 if cohort.empty?
                     cohort = "July".to_sym 
@@ -50,27 +43,24 @@ def input_students
                 end
                 until months.include?(cohort)
                     puts "Please enter a valid month of the year"
-                    cohort = STDIN.gets.delete("\r\n").capitalize.to_sym
+                    cohort = STDIN.gets.chomp.capitalize.to_sym
                 end
         
             puts "Which country were they born in?"
-            country = STDIN.gets.delete("\r\n")
+            country = STDIN.gets.chomp
             puts "How tall are they in cm?"
-            height = STDIN.gets.delete("\r\n")
+            height = STDIN.gets.chomp
             puts "What is their favourite hobby?"
-            hobby = STDIN.gets.delete("\r\n")
+            hobby = STDIN.gets.chomp
    
         #add student hash to the array
             add_to_students_array(name, cohort, country, height, hobby)
-            #@students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
-                if @students.count > 1 
-                    puts "Now we have #{@students.count} students" 
-                else
-                    puts "Now we have #{@students.count} student"
-                end
+            puts "Now we have #{@students.count} student" if @students.count == 1 
+            puts "Now we have #{@students.count} students" if @students.count > 1 
+                
             puts "Please add another student. If there are no more to add, hit return"
             #get another name from the user
-            name = STDIN.gets.delete("\r\n")
+            name = STDIN.gets.chomp
         end
    
 end
@@ -111,20 +101,14 @@ def print_students_list
 end
 
 def print_footer
-    if @students.count > 1 
-        puts "Overall, we have #{@students.count} great students"
-    else
-        puts "Overall, we have #{@students.count} great student"
-    end
+    puts "Overall, we have #{@students.count} great student"  if @students.count == 1 
+    puts "Overall, we have #{@students.count} great students"
 end
 
 def save_students
-    # open the file for writing
     file = File.open("students.csv", "w")
-    # iterate over the students array
     @students.each do |student|
-        student_data = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]]
-        csv_line = student_data.join(",")
+        csv_line = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]].join(",")
         file.puts csv_line
     end
     file.close
@@ -146,7 +130,6 @@ def try_load_students
         load_students 
     elsif File.exists?(filename)   # if it exists
         load_students(filename)
-        puts "Loaded #{@students.count} from #{filename}"
     else
         puts "Sorry, #{filename} does not exist"
         exit    # quit the program
