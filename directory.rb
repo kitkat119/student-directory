@@ -61,7 +61,8 @@ def input_students
             hobby = STDIN.gets.delete("\r\n")
    
         #add student hash to the array
-            @students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
+            add_to_students_array(name, cohort, country, height, hobby)
+            #@students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
                 if @students.count > 1 
                     puts "Now we have #{@students.count} students" 
                 else
@@ -72,6 +73,10 @@ def input_students
             name = STDIN.gets.delete("\r\n")
         end
    
+end
+
+def add_to_students_array(name, cohort, country, height, hobby)
+    @students << {name: name, cohort: cohort, country: country, height: height, hobby: hobby}
 end
 
 def show_students
@@ -118,7 +123,7 @@ def save_students
     file = File.open("students.csv", "w")
     # iterate over the students array
     @students.each do |student|
-        student_data = [student[:name], student[:cohort]]
+        student_data = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]]
         csv_line = student_data.join(",")
         file.puts csv_line
     end
@@ -128,8 +133,9 @@ end
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
-        name, cohort = line.chomp.split(',')
-        @students << {name: name, cohort: cohort.to_sym}
+        name, cohort, country, height, hobby = line.chomp.split(',')
+        add_to_students_array(name, cohort, country, height, hobby)
+        #@students << {name: name, cohort: cohort.to_sym, country: country, height: height, hobby: hobby}
     end
     file.close
 end
