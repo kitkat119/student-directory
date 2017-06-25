@@ -1,3 +1,4 @@
+require 'csv'
 @students = [] # an empty array accessible to all methods
 
 def print_menu
@@ -109,10 +110,10 @@ end
 
 def save_students
     puts "Which file would you like to save to? (You can always save to students.csv if needed!)"
-    filename = gets.chomp
-    File.open(filename, "w") do |file|
+    filename = STDIN.gets.chomp
+    CSV.open(filename, "w") do |file|
     @students.each do |student|
-        csv_line = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]].join(",")
+        csv_line = [student[:name], student[:cohort], student[:country], student[:height], student[:hobby]]
         file.puts csv_line
     end
     end
@@ -123,9 +124,9 @@ def load_students(filename = "students.csv")
     puts "If you'd like to load the list of students from a file other than students.csv, please enter it now. Otherwise, just hit return to continue to load from students.csv."
     other_filename = STDIN.gets.chomp
     filename ||= other_filename if File.exists?(other_filename)
-    File.open(filename, "r") do |file|
+    CSV.open(filename, "r") do |file|
     file.readlines.each do |line|
-        name, cohort, country, height, hobby = line.chomp.split(',')
+        name, cohort, country, height, hobby = line[0], line[1], line[2], line[3], line[4]
         add_to_students_array(name, cohort, country, height, hobby)
       end
     end
